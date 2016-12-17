@@ -61,7 +61,26 @@
 <script>
 	
 	function calcular(valor, periodo, tipo){
-		$(".resultado").append("<tr><td>" + periodo + "</td><td>" + valor + "</td><td>" + tipo + "</td></tr>");
+		var total_tesouro = valor, total_poupanca = valor, tx_selic = (13.65/12)/100, tx_poupanca = (6.17/12)/100;
+
+		console.log(total_tesouro * tx_selic +" - "+ total_poupanca * tx_poupanca);
+		console.log(tx_selic);
+
+		if(tipo == "mes"){
+			for(var count = 1; count <= periodo; count++){
+				console.log(total_tesouro);
+				total_tesouro = total_tesouro + (total_tesouro * tx_selic);
+				total_poupanca = total_poupanca + (total_poupanca * tx_poupanca);
+				$(".resultado").append("<tr>"+
+											"<td>" + count + "</td>"+
+											"<td>" + total_tesouro + "</td>"+
+											"<td>" + total_poupanca + "</td>"+
+										"</tr>");
+				console.log(total_tesouro);
+			}
+		}
+
+
 	}
 	
 	var valor, periodo;
