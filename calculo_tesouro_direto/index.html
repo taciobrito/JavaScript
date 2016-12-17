@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Tesouro Direto x Poupança</title>
+
+	<link rel="stylesheet" type="text/css" href="estilo.css">
+
+
+<script type="text/javascript" src="jquery.min.js"></script>
+</head>
+<body>
+
+<div class="geral">
+	
+
+	<div class="div">
+	<h3>Simulador - Tesouro Direto x Poupança</h3>
+
+		<form>
+			<fieldset>
+				<legend>Digite os dados do formulário</legend>
+				
+				<label for="valor">Valor para investir</label>
+				<input type="text" class="valor" />
+				
+				<label>Invetir</label>
+				<select class="tipo" size="2">
+					<option value="mes" selected>POR MÊS</option>
+					<option value="fixo">VALOR FIXO</option>
+				</select>
+				<div class="periododiv">
+					<label for="periodo">Período de investimento</label>
+					<input type="number" class="periodo" />
+				</div>
+
+				<button type="button" class="calcular">Calcular</button>
+			</fieldset>
+
+		</form>
+
+	</div>
+
+	<div class="div">
+		<h3>Resultado</h3>
+		<table class="table resultado">
+			<tr>
+				<th>Período</th>
+				<th>Tesouro Direto</th>
+				<th>Poupança</th>
+			</tr>
+		</table>
+
+	</div>
+
+</div>
+
+<div class="footer">
+	<h4>Desenvolvido por: Tácio Brito</h4>
+</div>
+
+<script>
+	
+	function calcular(valor, periodo, tipo){
+		$(".resultado").append("<tr><td>" + periodo + "</td><td>" + valor + "</td><td>" + tipo + "</td></tr>");
+	}
+	
+	var valor, periodo;
+	var tipo = $(".tipo").val();
+
+	$(".tipo").on("change", function (){
+		tipo = $(".tipo").val();
+	});
+
+	$(".calcular").on("click", function(){
+		valor = $(".valor").val();
+		periodo = $(".periodo").val();
+
+		if(valor == null || valor <= 0){
+			alert("Preencha com um número maior que 0!");
+		} else if (periodo == null || periodo <= 0){
+			alert("Preencha com um número maior que 0!");
+		} else {
+			calcular(valor, periodo, tipo);
+		}
+
+	});
+
+</script>
+
+</body>
+</html>
