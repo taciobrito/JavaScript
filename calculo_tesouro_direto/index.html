@@ -59,28 +59,34 @@
 </div>
 
 <script>
-	
-	function calcular(valor, periodo, tipo){
-		var total_tesouro = valor, total_poupanca = valor, tx_selic = (13.65/12)/100, tx_poupanca = (6.17/12)/100;
+	function mascaraValor(valor) {
+	    valor = valor.toString().replace(/\D/g,"");
+	    valor = valor.toString().replace(/(\d)(\d{8})$/,"$1.$2");
+	    valor = valor.toString().replace(/(\d)(\d{5})$/,"$1.$2");
+	    valor = valor.toString().replace(/(\d)(\d{2})$/,"$1,$2");
+	    return valor                    
+	}
 
-		console.log(total_tesouro * tx_selic +" - "+ total_poupanca * tx_poupanca);
-		console.log(tx_selic);
+	function calcular(valor, periodo, tipo){
+
+		$(".resultado tr").remove();
+
+		var total_tesouro = valor; console.log(total_tesouro);
+		var total_poupanca = valor; console.log(total_poupanca);
+		var tx_selic = 1.18/100; console.log(tx_selic);
+		var tx_poupanca = 0.5/100; console.log(tx_poupanca);
 
 		if(tipo == "mes"){
 			for(var count = 1; count <= periodo; count++){
-				console.log(total_tesouro);
 				total_tesouro = total_tesouro + (total_tesouro * tx_selic);
 				total_poupanca = total_poupanca + (total_poupanca * tx_poupanca);
 				$(".resultado").append("<tr>"+
 											"<td>" + count + "</td>"+
-											"<td>" + total_tesouro + "</td>"+
-											"<td>" + total_poupanca + "</td>"+
+											"<td>" + mascaraValor(total_tesouro) + "</td>"+
+											"<td>" + mascaraValor(total_poupanca) + "</td>"+
 										"</tr>");
-				console.log(total_tesouro);
 			}
 		}
-
-
 	}
 	
 	var valor, periodo;
@@ -94,10 +100,12 @@
 		valor = $(".valor").val();
 		periodo = $(".periodo").val();
 
-		if(valor == null || valor <= 0){
-			alert("Preencha com um número maior que 0!");
-		} else if (periodo == null || periodo <= 0){
-			alert("Preencha com um número maior que 0!");
+		if(valor == 0){
+			alert("Informe o valor a ser investido!");
+		} else if (periodo == 0){
+			alert("Informe o periodo de investimento!");
+		} else if(valor < 0 || periodo < 0){
+			alert("O valor e o periodo devem ser maiores que 0!");
 		} else {
 			calcular(valor, periodo, tipo);
 		}
