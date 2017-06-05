@@ -39,6 +39,7 @@
 	</div>
 
 	<div class="div">
+		<button type="button">Limpar Resultado</button>
 		<h4>Resultado:</h4>
 		<div class="resultado"></div>
 
@@ -68,9 +69,14 @@
 		return (posicao == -1) ? "R$ " + valor + ",00" : "R$ " + valor.toString().substring(0, posicao + 3).replace(".", ",");
 	}
 
+	function limparResultado(){
+		$(".linhas").remove();
+		$(".resultado p").remove();
+	}
+
 	function calcular(valor, periodo, tipo){
 
-		$(".linhas").remove();
+		limparResultado();
 
 		var total_tesouro = valor;
 		var total_poupanca = valor;
@@ -93,9 +99,9 @@
 									"</tr>");
 
 			if(count == periodo){
-				$(".resultado").append("Tesouro: " + formataValor(total_tesouro) + 
+				$(".resultado").append("<p>Tesouro: " + formataValor(total_tesouro) + 
 									"<br />Poupança: " + formataValor(total_poupanca)+
-									"<br />Diferença: " + formataValor(total_tesouro - total_poupanca));
+									"<br />Diferença: " + formataValor(total_tesouro - total_poupanca)+"</p>");
 			}
 		}
 	}
@@ -121,6 +127,11 @@
 		} else {
 			calcular(parseFloat(valor), parseInt(periodo), tipo);
 		}
+		return false;
+	});
+
+	$(".div button").on("click", function(){
+		limparResultado();
 	});
 
 </script>

@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+	<meta charset="UTF-8">
+	<title>REGEX</title>
+</head>
+<body>
+	<script>
+		var reg = /(?:\d{3}[-.]?\d{3}[.-]?\d{3})[.-]?(?:\d{2})/g;
+		var text = "https://cursos.alura.com.br/course/_050.025.561-08 expressoes-regulares/task/17571-tt";
+		console.log(text.match(reg));
+
+// 		var re = /\w+\s/g;
+// 		var str = 'fee fi fo fum';
+// 		var myArray = str.match(re);
+// 		console.log(myArray);
+	</script>
+</body>
+</html>
