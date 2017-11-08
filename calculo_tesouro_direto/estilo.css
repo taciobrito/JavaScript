@@ -45,8 +45,9 @@ label{
 
 input{
 	width: 93%;
+	border: solid 1px #ccc;
 	border-radius: 5px;
-	padding: 5px;
+	padding: 10px;
 	margin: 5px;
 }
 
@@ -59,8 +60,12 @@ select{
 
 fieldset{
 	border-radius: 5px;
-	border: solid 2px #ccc;
+	border: solid 1px #ccc;
 	padding: 5px;
+}
+
+legend {
+	text-transform: uppercase;
 }
 
 .calcular button{
@@ -123,6 +128,15 @@ fieldset{
 	text-align: center;
 	float: left;
 	color: #494949;
+}
+
+.footer a {
+	text-decoration: none;
+	color: #2980b9;
+}
+
+.footer a:hover {
+	text-decoration: underline;
 }
 
 .grid_metade {
