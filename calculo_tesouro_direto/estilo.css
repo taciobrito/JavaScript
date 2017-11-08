@@ -1,13 +1,41 @@
 .geral{
-	width: 800px;
+	width: 600px;
 	margin-left: auto;
 	margin-right: auto;
+	color: #494949;
 }
 
 .div{
-	width: 60%;
+	width: 100%;
 	padding: 10px;
 	float: left;
+}
+
+.div h3{
+	text-transform: uppercase;
+	text-align: center;
+}
+
+.div button {
+	padding: 10px;
+	border-radius: 5px;
+	width: 100%;
+	background-color: #2980b9;
+	border: solid 0px;
+	cursor: pointer;
+	font-weight: bold;
+	color: #fff;
+}
+
+.div button:hover {
+	padding: 10px;
+	border-radius: 5px;
+	width: 100%;
+	background-color: #3498db;
+	border: solid 0px;
+	cursor: pointer;
+	font-weight: bold;
+	color: #fff;
 }
 
 label{
@@ -46,22 +74,55 @@ fieldset{
 	color: #fff;
 }
 
-.table{
-	border: solid 2px #ccc;
+.calcular button:hover {
+	background-color: #2ecc71;
+}
+
+.calcular input[type='reset']{
+	padding: 10px;
 	border-radius: 5px;
+	width: 100%;
+	background-color: #bdc3c7;
+	border: solid 0px;
+	cursor: pointer;
+	font-weight: bold;
+	color: #34495e;
+}
+
+.calcular input[type='reset']:hover {
+	background-color: #ecf0f1;
+}
+
+.table{
+	/*border: solid 2px #ccc;*/
+	/*border-radius: 5px;*/
 	width: 100%
 }
 
 .table tr, .table td, .table th{
-	border: solid 1px #ccc;
+	border-bottom: solid 1px #ccc;
 	text-align: center;
 	margin: 0;
+	padding: 5px;
+}
+
+.table tr:nth-child( odd ) {
+	background-color: #ecf0f1;
+}
+
+.table tr:nth-child( odd ) {
+	background-color: #f1f1f1;
+}
+
+.table tr:hover {
+	background-color: #bdc3c7;
 }
 
 .footer{
 	width: 100%;
 	text-align: center;
 	float: left;
+	color: #494949;
 }
 
 .grid_metade {

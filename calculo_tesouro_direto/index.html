@@ -12,7 +12,7 @@
 <div class="geral">
 
 	<div class="div">
-	<h3>Simulador - Tesouro Direto x Poupança</h3>
+		<h3>Simulador <br /> <small>Tesouro Direto x Poupança</small></h3>
 
 		<form class="calcular">
 			<fieldset>
@@ -35,7 +35,7 @@
 				</select> -->
 
 				<div class="grid_metade">
-					<label for="valor_inicial">Taxa ao ano (a.%)</label>
+					<label for="taxa_anual">Taxa ao ano (%a.a.)</label>
 					<input type="number" class="taxa_anual" value="0" />
 				</div>
 
@@ -44,7 +44,12 @@
 					<input type="number" class="periodo" value="0" />
 				</div>
 
-				<button type="submit" style="margin-top: 10px;">Calcular</button>
+				<div class="periododiv grid_metade">
+					<button type="submit" style="margin-top: 10px;">Calcular</button>
+				</div>
+				<div class="periododiv grid_metade">
+					<input type="reset" style="margin-top: 10px;" value="Limpar Formulário" />
+				</div>
 			</fieldset>
 
 		</form>
@@ -53,13 +58,23 @@
 
 	<div class="div">
 		<button type="button">Limpar Resultado</button>
-		<h4>Resultado:</h4>
-		<div class="resultado"></div>
+		<div class="resultado" style="margin-top: 20px;">
+			<table class="table">
+				<tr>
+					<th colspan="3">Resultado</th>
+					<tr>
+						<th>Tesouro (R$)</th>
+						<th>Poupança (R$)</th>
+						<th>Diferença (R$)</th>
+					</tr>
+				</tr>
+			</table>
+		</div>
 
-		<table class="table detalhes">
-		<tr>
-			<th colspan="3">Detalhes</th>
-		</tr>
+		<table class="table detalhes" style="margin-top: 20px;">
+			<tr>
+				<th colspan="3">Detalhes</th>
+			</tr>
 			<tr>
 				<th>Período</th>
 				<th>Tesouro Direto</th>
@@ -79,10 +94,22 @@
 
 	var valor, periodo, valor_inicial, taxa_anual;
 
-	function formataValor( valor ){
-		var posicao = valor.toString().indexOf( "." );
-		return ( posicao == -1 ) ? "R$ " + valor + ",00" : "R$ " + valor.toString().substring( 0, posicao + 3 ).replace( ".", "," );
-	}
+	// function formataValor( valor ){
+	// 	var posicao = valor.toString().indexOf( "." );
+	// 	return ( posicao == -1 ) ? "R$ " + valor + ",00" : "R$ " + valor.toString().substring( 0, posicao + 3 ).replace( ".", "," );
+	// }
+
+ 	// Formata moeda
+ 	Number.prototype.formatMoney = function(decPlaces, thouSeparator, decSeparator) {
+      var n = this,
+          decPlaces = isNaN(decPlaces = Math.abs(decPlaces)) ? 2 : decPlaces,
+          decSeparator = decSeparator == undefined ? "." : decSeparator,
+          thouSeparator = thouSeparator == undefined ? "," : thouSeparator,
+          sign = n < 0 ? "-" : "",
+          i = parseInt(n = Math.abs(+n || 0).toFixed(decPlaces)) + "",
+          j = (j = i.length) > 3 ? j % 3 : 0;
+      return sign + (j ? i.substr(0, j) + thouSeparator : "") + i.substr(j).replace(/(\d{3})(?=\d)/g, "$1" + thouSeparator) + (decPlaces ? decSeparator + Math.abs(n - i).toFixed(decPlaces).slice(2) : "");
+  };
 
 	function limparResultado(){
 		$( ".linhas" ).remove();
@@ -90,14 +117,13 @@
 	}
 
 	function calcular(){
-
-// valor, periodo, valor_inicial, taxa_anual
+		// valor, periodo, valor_inicial, taxa_anual
 		limparResultado();
 
 		var total_tesouro = valor + valor_inicial;
 		var total_poupanca = valor + valor_inicial;
 		var tx_selic = ( taxa_anual / 12 ) / 100;
-		var tx_poupanca = 0.5 / 100;
+		var tx_poupanca = ( 5.25 / 12 ) / 100;
 
 		for( var count = 1; count <= periodo; count++ ){
 			if( count != 1 ){
@@ -110,14 +136,14 @@
 
 			$( ".detalhes" ).append( "<tr class='linhas'>" +
 										"<td>" + count + "</td>"+
-										"<td>" + formataValor( total_tesouro ) + "</td>"+
-										"<td>" + formataValor( total_poupanca ) + "</td>"+
+										"<td>R$ " + total_tesouro.formatMoney( 2, '.', ',' ) + "</td>"+
+										"<td>R$ " + total_poupanca.formatMoney( 2, '.', ',' ) + "</td>"+
 									"</tr>" );
 
 			if( count == periodo ){
-				$( ".resultado" ).append( "<p>Tesouro: " + formataValor( total_tesouro ) + 
-									"<br />Poupança: " + formataValor( total_poupanca )+
-									"<br />Diferença: " + formataValor( total_tesouro - total_poupanca ) + "</p>" );
+				$( ".resultado table" ).append( "<tr class='linhas'><td>" + total_tesouro.formatMoney( 2, '.', ',' ) + 
+									"</td><td>" + total_poupanca.formatMoney( 2, '.', ',' ) +
+									"</td><td>" + ( total_tesouro - total_poupanca ).formatMoney( 2, '.', ',' ) + "</td></tr>" );
 			}
 		}
 	}
@@ -127,22 +153,25 @@
 	// 	tipo = $(".tipo").val();
 	// });
 
-	$( ".calcular" ).on( "submit", function(){
-		valor = $( ".valor" ).val();
-		valor_inicial = $( ".valor_inicial" ).val();
-		periodo = $( ".periodo" ).val();
-		taxa_anual = $( ".taxa_anual" ).val();
+	$( ".calcular" ).on( "submit", function( e ){
+		e.preventDefault();
 
-		if( taxa_anual <= 0 ){
+		valor = Number( $( ".valor" ).val() );
+		valor_inicial = Number( $( ".valor_inicial" ).val() );
+		periodo = Number( $( ".periodo" ).val() );
+		taxa_anual = Number( $( ".taxa_anual" ).val() );
+
+		if( valor == 0 && valor_inicial == 0 ) {
+			alert( "Informe algum valor de investimento!" );
+		}	else if( taxa_anual <= 0 ){
 			alert( "Informe o valor da taxa anual!" );
 		} else if ( periodo == 0 ) {
 			alert( "Informe o período de investimento!" );
 		} else if( valor < 0 || periodo < 0 || valor_inicial < 0 || taxa_anual < 0 ){
 			alert( "Os valores devem ser maiores que 0!" );
 		} else {
-			calcular( parseFloat( valor ), parseInt( periodo ) );
+			calcular();
 		}
-		return false;
 	});
 
 	$( ".div button" ).on( "click", function() {
