@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title></title>
+
+	<link rel="stylesheet" type="text/css" href="estilo.css">
+
+<script type="text/javascript" src="jquery.min.js"></script>
+</head>
+<body>
+
+	<div class="algo"></div>
+
+<script>
+
+	jQuery(document).ready(function($) {
+		
+		$.ajax({
+			url: 'http://www.politico.cnm.org.br/webService/getProposicoes',
+			type: 'POST',
+      dataType: 'json',
+      data: {
+        like: 'PL 25',
+        avanced: 0,
+        count: 0,
+        uri: 0,
+      },
+      success: function( json ) {
+        console.log( json );
+        // for ( x in json ) {
+        //   $.get('http://www.politico.cnm.org.br/webService/getVotacoesMobilizacao/' + json[x].id, function(data) {
+        //     // console.log( data );
+        //   }, 'json');
+        // }
+
+      },
+      error: function() {
+        console.log("error");
+      },
+      complete: function() {
+        console.log("complete");
+      }
+		});
+		
+
+	});
+
+</script>
+
+</body>
+</html>
